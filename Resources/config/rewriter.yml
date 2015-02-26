@@ -1,0 +1,51 @@
+services:
+    mod_rewrite.rewriter:
+        class: Giftcards\ModRewrite\Rewriter
+        arguments:
+            - @mod_rewrite.chain_formatter
+            - @mod_rewrite.rule.regex_matcher
+            - @mod_rewrite.condition.formatting_predicate_checker
+            
+    mod_rewrite.condition.formatting_predicate_checker:
+        class: Giftcards\ModRewrite\Condition\FormattingPredicateChecker
+        arguments:
+            - @mod_rewrite.chain_formatter
+            - @mod_rewrite.condition.not_predicate_checker
+    
+    mod_rewrite.condition.not_predicate_checker:
+        class: Giftcards\ModRewrite\Condition\NotPredicateChecker
+        arguments:
+            - @mod_rewrite.condition.chain_predicate_checker
+        
+    mod_rewrite.condition.chain_predicate_checker:
+        class: Giftcards\ModRewrite\Condition\ChainPredicateChecker
+        calls:
+            - [add, [@mod_rewrite.condition.existance_predicate_checker]]
+            - [setDefault, [@mod_rewrite.condition.regex_predicate_checker]]
+    
+    mod_rewrite.condition.existance_predicate_checker:
+        class: Giftcards\ModRewrite\Condition\ExistencePredicateChecker
+        arguments:
+            - %kernel.root_dir%/../htdocs
+    
+    mod_rewrite.condition.regex_predicate_checker:
+        class: Giftcards\ModRewrite\Condition\RegexPredicateChecker
+        
+    mod_rewrite.chain_formatter:
+        class: Giftcards\ModRewrite\Formatter\ChainFormatter
+        calls:
+            - [add, [@mod_rewrite.apache_server_variable_formatter]]
+            - [add, [@mod_rewrite.rewrite_formatter]]
+            - [add, [@mod_rewrite.last_passing_condition_formatter]]
+    
+    mod_rewrite.apache_server_variable_formatter:
+        class: Giftcards\ModRewrite\Formatter\ApacheServerVariableFormatter
+        
+    mod_rewrite.rewrite_formatter:
+        class: Giftcards\ModRewrite\Formatter\RewriteFormatter
+        
+    mod_rewrite.last_passing_condition_formatter:
+        class: Giftcards\ModRewrite\Formatter\LastPassingConditionFormatter
+        
+    mod_rewrite.rule.regex_matcher:
+        class: Giftcards\ModRewrite\Rule\RegexMatcher

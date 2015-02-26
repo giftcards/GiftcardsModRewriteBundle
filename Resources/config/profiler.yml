@@ -1,0 +1,5 @@
+services:
+    mod_rewrite.mod_rewrite_collector:
+        class: Giftcards\ModRewriteBundle\DataCollector\ModRewriteCollector
+        tags:
+            - { name: data_collector, template: GiftcardsModRewriteBundle:Collector:mod_rewrite, id: mod_rewrite }

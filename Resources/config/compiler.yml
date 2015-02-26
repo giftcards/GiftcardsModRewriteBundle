@@ -1,0 +1,12 @@
+services:
+    mod_rewrite.parser:
+        class: Giftcards\ModRewrite\Compiler\Parser
+    
+    mod_rewrite.lexer:
+        class: Giftcards\ModRewrite\Compiler\Lexer
+    
+    mod_rewrite.compiler:
+        class: Giftcards\ModRewrite\Compiler\Compiler
+        arguments:
+            - @mod_rewrite.lexer
+            - @mod_rewrite.parser

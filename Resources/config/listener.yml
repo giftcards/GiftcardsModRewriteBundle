@@ -1,0 +1,10 @@
+services:
+    mod_rewrite.rewrite_listener:
+        class: Giftcards\ModRewriteBundle\EventListener\ModRewriteListener
+        arguments:
+            - @mod_rewrite.rewriter
+            - @mod_rewrite.compiler
+            - files
+            - handle_redirects
+        tags:
+            - { name: kernel.event_subscriber }
