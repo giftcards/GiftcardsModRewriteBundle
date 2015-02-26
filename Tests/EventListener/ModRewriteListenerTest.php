@@ -10,6 +10,8 @@ namespace Giftcards\ModRewriteBundle\Tests\EventListener;
 
 
 use Giftcards\ModRewrite\Compiler\Configuration;
+use Giftcards\ModRewrite\Compiler\Directive;
+use Giftcards\ModRewrite\Compiler\Rule;
 use Giftcards\ModRewrite\Result;
 use Giftcards\ModRewriteBundle\EventListener\ModRewriteListener;
 use Giftcards\ModRewriteBundle\Tests\Mock\Mockery\Matcher\EqualsMatcher;
@@ -164,7 +166,7 @@ class ModRewriteListenerTest extends \PHPUnit_Framework_testCase
         ;
         
         $result1 = new Result('/newpath');
-        $result2 = new Result('/newpath', false, \Mockery::mock('Giftcards\ModRewrite\Compiler\Rule'));
+        $result2 = new Result('/newpath', new Rule(new Directive('', '', '', '', array()), array()));
         $this->rewriter
             ->shouldReceive('rewrite')
             ->once()
@@ -216,7 +218,7 @@ class ModRewriteListenerTest extends \PHPUnit_Framework_testCase
         ;
         
         $result1 = new Result('/newpath');
-        $result2 = new Result('/newpath', 301, \Mockery::mock('Giftcards\ModRewrite\Compiler\Rule'));
+        $result2 = new Result('/newpath', new Rule(new Directive('', '', '', '', array('R' => 301)), array()));
         $this->rewriter
             ->shouldReceive('rewrite')
             ->once()
@@ -271,7 +273,7 @@ class ModRewriteListenerTest extends \PHPUnit_Framework_testCase
         ;
         
         $result1 = new Result('/newpath');
-        $result2 = new Result('/newpath', 301, \Mockery::mock('Giftcards\ModRewrite\Compiler\Rule'));
+        $result2 = new Result('/newpath', new Rule(new Directive('', '', '', '', array('R' => 301)), array()));
         $this->rewriter
             ->shouldReceive('rewrite')
             ->once()

@@ -39,7 +39,6 @@ class ModRewriteCollectorTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->collector->hasResult());
         $result = new Result(
             'url',
-            243,
             new Rule(new Directive('', '', '', '', array()), array())
         );
         $request->attributes->set('mod_rewrite_result', $result);

@@ -70,9 +70,12 @@ class ModRewriteListener implements EventSubscriberInterface
 
         $request->attributes->set('mod_rewrite_result', $result);
 
-        if (($redirect = $result->getRedirect()) && $this->handleRedirects) {
+        $flags = $result->getMatchedRule()->getRewrite()->getFlags();
+        
+        if (!empty($flags['redirect']) || !empty($flags['R']) && $this->handleRedirects) {
 
-            $event->setResponse(new RedirectResponse($result->getUrl(), $redirect));
+            $statusCode = !empty($flags['redirect']) ? $flags['redirect'] : $flags['R'];
+            $event->setResponse(new RedirectResponse($result->getUrl(), $statusCode));
             return;
         }
     }
