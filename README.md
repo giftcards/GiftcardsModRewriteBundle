@@ -1,7 +1,7 @@
-GiftcardsFixedWidthBundle [![Build Status](https://travis-ci.org/giftcards/GiftcardsModRewriteBundle.svg?branch=master)](https://travis-ci.org/giftcards/GiftcardsModRewriteBundle)
+GiftcardsModRewriteBundle [![Build Status](https://travis-ci.org/giftcards/GiftcardsModRewriteBundle.svg?branch=master)](https://travis-ci.org/giftcards/GiftcardsModRewriteBundle)
 =========================
 
-Bundle that integrates the [fixed width library](https://github.com/giftcards/ModRewrite) into symfony
+Bundle that integrates the [mod rewrite library](https://github.com/giftcards/ModRewrite) into symfony
 
 Config
 ------
