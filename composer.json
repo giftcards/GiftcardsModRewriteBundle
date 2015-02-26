@@ -3,7 +3,7 @@
     "description": "Bundle that integrates the mod rewrite library into Symfony",
 	"require": {
 		"symfony/symfony": "~2.3",
-        "giftcards/mod-rewrite": "dev-master"
+        "giftcards/mod-rewrite": "~1.0"
 	},
     "require-dev": {
         "mockery/mockery": "@dev",
