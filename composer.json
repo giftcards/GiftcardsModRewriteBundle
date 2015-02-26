@@ -1,5 +1,6 @@
 {
 	"name": "giftcards/mod-rewrite-bundle",
+    "description": "Bundle that integrates the fixed width library - https://github.com/giftcards/GiftcardsModRewriteBundle into Symfony",
 	"require": {
 		"symfony/symfony": "~2.3",
         "giftcards/mod-rewrite": "dev-master"
