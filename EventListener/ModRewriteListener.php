@@ -52,7 +52,7 @@ class ModRewriteListener implements EventSubscriberInterface
         foreach ($this->fileNames as $fileName) {
 
             $result = $this->rewriter->rewrite(
-                $request->getPathInfo(),
+                rawurldecode($request->getPathInfo()),
                 $request,
                 $this->compiler->compile(file_get_contents($fileName))
             );

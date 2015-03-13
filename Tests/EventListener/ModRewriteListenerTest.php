@@ -79,7 +79,7 @@ class ModRewriteListenerTest extends \PHPUnit_Framework_testCase
 
     public function testCheckModRewriteWithNoRewrite()
     {
-        $request = new Request(array(), array(), array(), array(), array(), array('REQUEST_URI' => '/path'));
+        $request = new Request(array(), array(), array(), array(), array(), array('REQUEST_URI' => '/path%20hello'));
 
         $engine1 = new Configuration();
         $engine2 = new Configuration();
@@ -110,7 +110,7 @@ class ModRewriteListenerTest extends \PHPUnit_Framework_testCase
             ->shouldReceive('rewrite')
             ->once()
             ->with(
-                '/path',
+                '/path hello',
                 $request,
                 $engine1
             )
@@ -119,7 +119,7 @@ class ModRewriteListenerTest extends \PHPUnit_Framework_testCase
             ->shouldReceive('rewrite')
             ->once()
             ->with(
-                '/path',
+                '/path hello',
                 $request,
                 $engine2
             )
@@ -128,7 +128,7 @@ class ModRewriteListenerTest extends \PHPUnit_Framework_testCase
             ->shouldReceive('rewrite')
             ->once()
             ->with(
-                '/path',
+                '/path hello',
                 $request,
                 $engine3
             )
