@@ -20,22 +20,28 @@ class GiftcardsModRewriteExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('compiler.yml');
         $loader->load('rewriter.yml');
-        
-        if ($config['rewrite_listener']['enabled']) {
+        $loader->load('processor.yml');
 
+        if ($config['rewrite_listener']['enabled']) {
             $loader->load('listener.yml');
-            $listenerConfig = $config['rewrite_listener'];
-            
             $container->getDefinition('mod_rewrite.rewrite_listener')
-                ->replaceArgument(2, $listenerConfig['files'])
-                ->replaceArgument(3, $listenerConfig['handle_redirects'])
+                ->replaceArgument(2, $config['files'])
+                ->replaceArgument(3, $config['rewrite_listener']['handle_redirects'])
+            ;
+        }
+
+        if ($config['router']['enabled']) {
+            $loader->load('router.yml');
+            $container->getDefinition('mod_rewrite.rewrite_router')
+                ->replaceArgument(2, $config['files'])
+                ->replaceArgument(3, $config['router']['controller'])
+                ->addTag('router', array('priority' => $config['router']['priority']))
             ;
         }
 
         $bundles = $container->getParameter('kernel.bundles');
 
         if (isset($bundles['WebProfilerBundle'])) {
-
             $loader->load('profiler.yml');
         }
     }

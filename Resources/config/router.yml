@@ -1,0 +1,8 @@
+services:
+    mod_rewrite.rewrite_router:
+        class: Giftcards\ModRewriteBundle\Routing\Router
+        arguments:
+            - '@mod_rewrite.rewriter'
+            - '@mod_rewrite.compiler'
+            - files
+            - controller

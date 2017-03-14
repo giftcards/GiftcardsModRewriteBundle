@@ -1,0 +1,3 @@
+services:
+    mod_rewrite.processor:
+        class: Giftcards\ModRewrite\Processor

@@ -49,12 +49,56 @@ class GiftcardsModRewriteExtensionTest extends \PHPUnit_Framework_testCase
             false,
             false
         );
+        $this->assertNotContains(
+            new FileResource(__DIR__.'/../../Resources/config/router.yml'),
+            $container->getResources(),
+            '',
+            false,
+            false
+        );
         $this->assertEquals(array(), $container->getDefinition('mod_rewrite.rewrite_listener')->getArgument(2));
         $this->assertTrue($container->getDefinition('mod_rewrite.rewrite_listener')->getArgument(3));
     }
 
-
     public function testLoadWithFiles()
+    {
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.bundles', array());
+        $this->extension->load(array(array(
+            'files' => array(
+                'file1',
+                'file2'
+            )
+        )), $container);
+        $this->assertContains(
+            new FileResource(__DIR__.'/../../Resources/config/compiler.yml'),
+            $container->getResources(),
+            '',
+            false,
+            false
+        );
+        $this->assertContains(
+            new FileResource(__DIR__.'/../../Resources/config/rewriter.yml'),
+            $container->getResources(),
+            '',
+            false,
+            false
+        );
+        $this->assertContains(
+            new FileResource(__DIR__.'/../../Resources/config/listener.yml'),
+            $container->getResources(),
+            '',
+            false,
+            false
+        );
+        $this->assertEquals(array(
+            'file1',
+            'file2'
+        ), $container->getDefinition('mod_rewrite.rewrite_listener')->getArgument(2));
+        $this->assertTrue($container->getDefinition('mod_rewrite.rewrite_listener')->getArgument(3));
+    }
+
+    public function testLoadWithListenerFiles()
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.bundles', array());
@@ -94,7 +138,7 @@ class GiftcardsModRewriteExtensionTest extends \PHPUnit_Framework_testCase
         $this->assertTrue($container->getDefinition('mod_rewrite.rewrite_listener')->getArgument(3));
     }
 
-    public function testLoadWithHandleRedirectDisabled()
+    public function testLoadWithListenerHandleRedirectDisabled()
     {
         $container = new ContainerBuilder();
         $container->setParameter('kernel.bundles', array());
@@ -158,6 +202,132 @@ class GiftcardsModRewriteExtensionTest extends \PHPUnit_Framework_testCase
             false,
             false
         );
+    }
+
+    public function testLoadWhereRouterEnabled()
+    {
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.bundles', array());
+        $this->extension->load(array(array(
+            'router' => array(
+                'enabled' => true
+            )
+        )), $container);
+        $this->assertContains(
+            new FileResource(__DIR__.'/../../Resources/config/compiler.yml'),
+            $container->getResources(),
+            '',
+            false,
+            false
+        );
+        $this->assertContains(
+            new FileResource(__DIR__.'/../../Resources/config/rewriter.yml'),
+            $container->getResources(),
+            '',
+            false,
+            false
+        );
+        $this->assertContains(
+            new FileResource(__DIR__.'/../../Resources/config/router.yml'),
+            $container->getResources(),
+            '',
+            false,
+            false
+        );
+        $this->assertEquals(
+            array(array('priority' => 0)),
+            $container->getDefinition('mod_rewrite.rewrite_router')->getTag('router')
+        );
+        $this->assertEquals(array(), $container->getDefinition('mod_rewrite.rewrite_router')->getArgument(2));
+    }
+
+    public function testLoadWhereRouterEnabledAndHasFiles()
+    {
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.bundles', array());
+        $this->extension->load(array(array(
+            'router' => array(
+                'enabled' => true
+            ),
+            'files' => array(
+                'file1',
+                'file2'
+            )
+        )), $container);
+        $this->assertContains(
+            new FileResource(__DIR__.'/../../Resources/config/compiler.yml'),
+            $container->getResources(),
+            '',
+            false,
+            false
+        );
+        $this->assertContains(
+            new FileResource(__DIR__.'/../../Resources/config/rewriter.yml'),
+            $container->getResources(),
+            '',
+            false,
+            false
+        );
+        $this->assertContains(
+            new FileResource(__DIR__.'/../../Resources/config/router.yml'),
+            $container->getResources(),
+            '',
+            false,
+            false
+        );
+        $this->assertEquals(
+            array(array('priority' => 0)),
+            $container->getDefinition('mod_rewrite.rewrite_router')->getTag('router')
+        );
+        $this->assertEquals(array(
+            'file1',
+            'file2'
+        ), $container->getDefinition('mod_rewrite.rewrite_listener')->getArgument(2));
+    }
+
+    public function testLoadWhereRouterEnabledAndHasFilesAndPriority()
+    {
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.bundles', array());
+        $this->extension->load(array(array(
+            'router' => array(
+                'enabled' => true,
+                'priority' => 23
+            ),
+            'files' => array(
+                'file1',
+                'file2'
+            )
+        )), $container);
+        $this->assertContains(
+            new FileResource(__DIR__.'/../../Resources/config/compiler.yml'),
+            $container->getResources(),
+            '',
+            false,
+            false
+        );
+        $this->assertContains(
+            new FileResource(__DIR__.'/../../Resources/config/rewriter.yml'),
+            $container->getResources(),
+            '',
+            false,
+            false
+        );
+        $this->assertContains(
+            new FileResource(__DIR__.'/../../Resources/config/router.yml'),
+            $container->getResources(),
+            '',
+            false,
+            false
+        );
+        $this->assertEquals(
+            array(array('priority' => 23)),
+            $container->getDefinition('mod_rewrite.rewrite_router')->getTag('router')
+        );
+        $this->assertEquals(array(
+            'file1',
+            'file2'
+        ), $container->getDefinition('mod_rewrite.rewrite_listener')->getArgument(2));
     }
 
     public function testLoadWhereWebProfilerBundleThere()

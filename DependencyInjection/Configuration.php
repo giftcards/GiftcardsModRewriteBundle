@@ -22,7 +22,20 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('giftcards_mod_rewrite');
 
         $rootNode
+            ->beforeNormalization()
+            ->ifTrue(function ($v) {
+                return empty($v['files']) && !empty($v['rewrite_listener']['files']);
+            })
+            ->then(function ($v) {
+                $v['files'] = $v['rewrite_listener']['files'];
+                return $v;
+            })
+            ->end()
             ->children()
+                ->arrayNode('files')
+                    ->prototype('scalar')
+                    ->end()
+                ->end()
                 ->arrayNode('rewrite_listener')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -32,6 +45,14 @@ class Configuration implements ConfigurationInterface
                             ->prototype('scalar')
                             ->end()
                         ->end()
+                    ->end()
+                ->end()
+                ->arrayNode('router')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')->defaultFalse()->end()
+                        ->scalarNode('priority')->defaultValue(0)->end()
+                        ->scalarNode('controller')->defaultValue('GiftcardsModRewriteBundle:Rewrite:rewrite')->end()
                     ->end()
                 ->end()
             ->end()

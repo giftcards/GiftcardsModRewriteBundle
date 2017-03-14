@@ -3,11 +3,12 @@
     "description": "Bundle that integrates the mod rewrite library into Symfony",
 	"require": {
 		"symfony/symfony": "~2.3",
-        "giftcards/mod-rewrite": "~1.0"
+        "giftcards/mod-rewrite": "^1.1"
 	},
     "require-dev": {
-        "mockery/mockery": "@dev",
-        "fzaninotto/faker": "~1.3"
+        "mockery/mockery": "0.9.3",
+        "fzaninotto/faker": "~1.3",
+        "phpunit/phpunit": "^4.0"
     },
     "autoload": {
         "psr-0": {
