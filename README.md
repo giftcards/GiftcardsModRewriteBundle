@@ -40,9 +40,10 @@ if you dont want the listener then set enabled to false.
 
 ## The Router ##
 Now you can also enable the mod rewrite router. This is really only useful generally in addition 
-to other routers but you can use it however you want after its enabled. By default its been setup to
-be easily integrated with the [CMF Routing Bundle](https://github.com/symfony-cmf/routing-bundle)'s
- chain routing. You can configure its priority right in the config. When it is enabled it will route
+to other routers but you can use it however you want like any symfony router after its enabled.
+ By default its been setup to be easily integrated with the
+  [CMF Routing Bundle](https://github.com/symfony-cmf/routing-bundle)'s chain routing.
+   You can configure its priority right in the config. When it is enabled it will route
  mod rewrite matches to the `GiftcardsModRewriteBundle:Rewrite:rewrite` controller action. This action
  will return responses immediately for matches that are configured to do so (ex. R, G, F flags). For others
  that in apache would trigger an internal redirect in apache a sub request is generated and sent back
