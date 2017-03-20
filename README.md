@@ -24,9 +24,9 @@ giftcards_mod_rewrite:
 ```
 
 ## New in version 1.1.0 ##
-You can configure the files to read in the fiels key at the root of the config
+You can configure the files to read in the `files` key at the root of the config
 instead of under rewrite_listener key and it will be used for both the rewrite listener
-as well as the router
+as well as the router. The `rewrite_listener.files` key has been deprecated.
 
 ## The Rewrite Listener ##
 the rewrite listener will take requests and set the result of the rewriter to the request 
